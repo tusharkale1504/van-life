@@ -1,0 +1,51 @@
+.heading {
+  text-align: start;
+  display: flex;
+  justify-content: center;
+  margin: 40px 20px;
+}
+
+.mission {
+  margin-top: 30px;
+  font-size: 18px;
+  color: black;
+  text-align: start;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+.car-wheels {
+  margin-top: 20px;
+  font-size: 18px;
+  color: black;
+  text-align: start;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+.container {
+  height: 150px;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding-top: 20px;
+
+  font-size: 14px;
+  padding-left: 20px;
+  background-color: bisque;
+  margin: 30px 20px;
+}
+
+
+button{
+    margin-top: 15px;
+    padding: 10px 20px;
+    font-size: 15px;
+    background-color: #351401;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
