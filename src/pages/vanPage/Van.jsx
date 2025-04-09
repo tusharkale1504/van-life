@@ -1,14 +1,29 @@
-import React from 'react';
-import './Van.css';
-import { vans } from '../../vans';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import "./Van.css";
 
 export const Van = () => {
+  const [vans, setVans] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/vans")
+      .then((res) => {
+        setVans(res.data);
+        console.log("Fetched Vans:", res.data);
+      })
+      .catch((err) => {
+        console.error("Error fetching vans:", err);
+      });
+  }, []);
+
   return (
     <div className="van-container">
       <h1 className="van-heading">Explore Our Vans</h1>
       <p className="van-description">
-        Whether you're hitting the mountains or cruising the coast, our travel vans give you freedom, comfort, and style.
+        Whether you're hitting the mountains or cruising the coast, our travel
+        vans give you freedom, comfort, and style.
       </p>
 
       <div className="van-gallery">
@@ -18,7 +33,6 @@ export const Van = () => {
               <img src={van.image} alt={van.name} />
               <h3>{van.name}</h3>
               <p>${van.price}/day</p>
-              
             </div>
           </Link>
         ))}

@@ -1,15 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { vans } from "../../vans";
+import axios from "axios";
 import "./VanInfo.css";
 
 export const VanInfo = () => {
   const { id } = useParams();
-  const van = vans.find((van) => van.id === parseInt(id));
+  const [van, setVan] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  if (!van) {
-    return <div className="vaninfo-container">Van not found.</div>;
-  }
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3000/vans/${id}`)
+      .then((res) => {
+        setVan(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError("Van not found.");
+        setLoading(false);
+      });
+  }, [id]);
+
+  if (loading) return <div className="vaninfo-container">Loading...</div>;
+  if (error) return <div className="vaninfo-container">{error}</div>;
 
   return (
     <div className="vaninfo-container">
@@ -23,21 +37,21 @@ export const VanInfo = () => {
           <p className="vaninfo-availability">{van.availability}</p>
 
           <ul className="vaninfo-list">
-            {van.infoPoints.map((point, index) => (
+            {van.infoPoints?.map((point, index) => (
               <li key={index}>{point}</li>
             ))}
           </ul>
 
           <h3>Features</h3>
           <div className="vaninfo-tags">
-            {van.features.map((feature, index) => (
+            {van.features?.map((feature, index) => (
               <span key={index} className="tag">{feature}</span>
             ))}
           </div>
 
           <h3>Customer Reviews</h3>
           <div className="vaninfo-reviews">
-            {van.reviews.map((review, index) => (
+            {van.reviews?.map((review, index) => (
               <div key={index} className="review">
                 <strong>{review.user}</strong>: {review.comment}
               </div>
