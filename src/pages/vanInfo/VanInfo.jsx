@@ -8,6 +8,7 @@ export const VanInfo = () => {
   const [van, setVan] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [bookingSuccess, setBookingSuccess] = useState(false);
 
   useEffect(() => {
     axios
@@ -21,6 +22,24 @@ export const VanInfo = () => {
         setLoading(false);
       });
   }, [id]);
+
+  const handleBooking = () => {
+  const bookingData = {
+    vanId: van.id, // Send only vanId as booking data
+  };
+
+  axios
+    .post("http://localhost:3000/book-van", bookingData) // Correct endpoint
+    .then((response) => {
+      setBookingSuccess(true);
+      alert("Booking successful!");
+    })
+    .catch((error) => {
+      alert("Booking failed. Please try again.");
+      console.error(error);
+    });
+};
+
 
   if (loading) return <div className="vaninfo-container">Loading...</div>;
   if (error) return <div className="vaninfo-container">{error}</div>;
@@ -58,7 +77,11 @@ export const VanInfo = () => {
             ))}
           </div>
 
-          <button className="book-btn">Book Now</button>
+          <button className="book-btn" onClick={handleBooking}>
+            Book Now
+          </button>
+
+          {bookingSuccess && <p>Your booking was successful!</p>}
         </div>
       </div>
     </div>
